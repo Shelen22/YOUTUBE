@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        #videos{
+            display: grid;
+            grid-template-columns: repeat(4,20%);
+            grid-gap: 5%;
+        }
+        #recom{
+            display: grid;
+            grid-template-columns: repeat(4,20%);
+            grid-gap: 5%;
+        }
+        #logo{
+            width: 110px;
+            height: 70px;
+            margin-top: -1%;
+            margin-left: 2%;
+        }
+        #nav{
+            display:flex;
+            
+        }
+        input{
+            width: 39%;
+            height: 35px;
+            border: 1px solid grey;
+            font-size: 20px;
+            
+
+            margin: .5% 0% 0% 10%;
+        }
+        button{
+            height: 39px;
+            width: 70px;
+            margin: .5% -1%;
+        }
+
+        li{
+            list-style: none;
+        }
+        #li{
+            display:grid;
+            grid-template-columns: repeat(4,20%);
+            gap: 30px;
+            margin: .7% 2% 1.5% 6% ;
+        }
+        .ra{
+            border-radius: 100%;
+            width: 30px;
+        }
+        
+    </style>
+  </head>
+  <body>
+     <nav id="nav">
+      <img src="https://th.bing.com/th/id/OIP.eQDSOvXEZN6RHnbA6yP7CQHaHa?w=171&h=180&c=7&r=0&o=5&dpr=1.1&pid=1.7" height="45px">
+     <img src="https://th.bing.com/th/id/OIP._GtGNuF1vwgrzARaUkw-dwHaEK?pid=ImgDet&rs=1" id="logo">
+    <input type="text" id="query" placeholder="Search for a Video" />
+
+    <button onclick="searchVideos()"><img src="https://img.icons8.com/ios-glyphs/100/000000/search--v1.png" width="30px"/></button>
+    <img src="https://img.icons8.com/material-sharp/24/000000/microphone--v1.png" height="25px" style="margin: 1% 2%;"/>
+     <div id="li">
+         <img src="https://img.icons8.com/material-outlined/24/000000/camcorder-pro.png"height="30px"/>
+         <img src="https://img.icons8.com/ios/50/000000/thumbnail-view.png" height="25px" style="margin: 1.5%;">
+        <img src="https://img.icons8.com/material-outlined/24/000000/filled-appointment-reminders.png" height="25px"/>
+        <img src="https://yt3.ggpht.com/yti/APfAmoEOKReGCaqiC_oum5FQdWPJL16vYGK2qodJgwJZ_W8=s88-c-k-c0x00ffffff-no-rj-mo" class="ra" />
+     </div>
+    </nav>
+    <div id="recom"></div>
+    <div id="videos"></div>
+  </body>
+</html>
+
+<script>
+//https://youtube.googleapis.com/youtube/v3/search?maxResults=20&q=}&key=
+    let videos = document.getElementById("videos");
+    let recom = document.getElementById("recom");
+
+async function searchVideos(){
+
+    let query = document.getElementById("query").value
+
+    let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyAp9e0rOPCsxiUkaa9uAizMhhmtVLdJSKQ&maxResults=20&type=video&q=${query}`);
+let data = await res.json();
+console.log('data:', data)
+appendVideos(data.items)
+
+}
+
+
+function appendVideos(video_data){
+    videos.innerHTML = null;
+    recom.innerHTML = null;
+    video_data.forEach(({ id:{videoId},snippet:{title}}) => {
+        // console.log('title:', title)
+        // console.log('videoId:', videoId)
+        //  console.log('videos:',)
+
+       
+        let divmain = document.createElement("div");
+
+        let div = document.createElement("div");
+
+        div.innerHTML = `<iframe width="290" height="215" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+        div.style.marginTop = "20px";
+
+        let p = document.createElement("p");
+
+        p.innerText = title;
+
+        divmain.append(div,p);
+       videos.append(divmain);
+    });
+}
+
+async function recentVideos(){
+
+    
+
+let res = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&key=AIzaSyAp9e0rOPCsxiUkaa9uAizMhhmtVLdJSKQ&maxResults=20`);
+let data = await res.json();
+console.log('data:', data)
+    popular(data.items)
+
+}
+function popular(video_datas){
+
+    video_datas.forEach(({ id,snippet:{title}}) => {
+        // console.log('title:', title)
+        // console.log('videoId:', videoId)
+        //  console.log('videos:',)
+
+       
+        let divmain = document.createElement("div");
+
+        let div = document.createElement("div");
+
+        div.innerHTML = `<iframe width="290" height="215" src="https://www.youtube.com/embed/${id}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+        div.style.marginTop = "20px";
+
+        let p = document.createElement("p");
+
+        p.innerText = title;
+
+        divmain.append(div,p);
+         recom.append(divmain);
+    });
+}
+  recentVideos();
+</script>
