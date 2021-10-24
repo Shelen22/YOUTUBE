@@ -26,13 +26,11 @@
             display:flex;
             
         }
-        input{
+        #query{
             width: 39%;
             height: 35px;
             border: 1px solid grey;
             font-size: 20px;
-            
-
             margin: .5% 0% 0% 10%;
         }
         button{
@@ -54,6 +52,108 @@
             border-radius: 100%;
             width: 30px;
         }
+        #sign {
+    display: inline-block;
+    font-size: 17px;
+    cursor: pointer;
+  }
+  #signout{
+    margin-top: 2%;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left:10px;
+  }
+  #signout:hover{
+    background-color: red;
+  }
+
+
+  #pop {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #inner {
+    height: 500px;
+    width: 500px;
+    background-color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    border-radius: 4px;
+  }
+
+  .btn {
+    background-color: cornflowerblue;
+    color: cornsilk;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  .btn:hover {
+    background: white;
+    color: black;
+    cursor: pointer;
+  }
+
+  #signup input {
+    margin: 15px auto;
+    display: block;
+    width: 50%;
+    padding: 8px;
+    border: 1px solid gray;
+  }
+
+  #signup h1 {
+    line-height: 20px;
+    margin-top: 0%;
+  }
+
+  #close {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 42px;
+    color: #333;
+    transform: rotate(45deg);
+    cursor: pointer;
+  }
+  #backtosign {
+    position: absolute;
+    top:5;
+    margin-top: 20px;
+    right: 10px;
+    font-size: 30px;
+
+    cursor: pointer;
+  }
+
+  #signin {
+    display: none;
+  }
+  #login{
+    color:teal;
+    font-weight: 200;
+    cursor: pointer;
+  }
+  #acc{
+    color:teal;
+    font-weight: 200;
+    cursor: pointer;
+  }
+  #signin input{
+    margin: 15px auto;
+    display: block;
+    width: 50%;
+    padding: 8px;
+    border: 1px solid gray;
+  }
         
     </style>
   </head>
@@ -69,11 +169,45 @@
          <img src="https://img.icons8.com/material-outlined/24/000000/camcorder-pro.png"height="30px"/>
          <img src="https://img.icons8.com/ios/50/000000/thumbnail-view.png" height="25px" style="margin: 1.5%;">
         <img src="https://img.icons8.com/material-outlined/24/000000/filled-appointment-reminders.png" height="25px"/>
-        <img src="https://yt3.ggpht.com/yti/APfAmoEOKReGCaqiC_oum5FQdWPJL16vYGK2qodJgwJZ_W8=s88-c-k-c0x00ffffff-no-rj-mo" class="ra" />
+         <div id="sign">
+        <img src="https://yt3.ggpht.com/yti/APfAmoEOKReGCaqiC_oum5FQdWPJL16vYGK2qodJgwJZ_W8=s88-c-k-c0x00ffffff-no-rj-mo" class="ra" />Register</div>
      </div>
     </nav>
     <div id="recom"></div>
     <div id="videos"></div>
+    <div id="pop">
+        <div id="inner">
+          <div id="close">+</div>
+          <div id="backtosign">🔙</div>
+          <div id="signup">
+            <h1>Virtual World</h1>
+            <h1>Signup</h1>
+            <div id="userpop"></div>
+            <form onsubmit="Signup(event)" id="signup-form">
+              <input type="text" id="name" placeholder="name" />
+              <input type="text" id="email" placeholder="email" />
+              <input type="password" id="password" placeholder="password" />
+              <input type="text" id="username" placeholder="username" />
+              <input type="number" id="mobile" placeholder="mobile" />
+              <input type="text" id="description" placeholder="description" />
+              <input type="submit" class="btn" />
+              <div id="login">Login Here</div>
+               
+            </form>
+            </div>
+          <div id="signin">
+            <h1>Virtual World</h1>
+          <h1>login</h1>
+          <div id="userpop2"></div>
+          <form onsubmit="logins(event)" id="signin-form">
+          <input type="text" id="user" placeholder="username" />
+          <input type="password" id="pass" placeholder="password" />
+          <input type="submit" class="btn" />
+          
+          </form>
+      </div>
+        </div>
+      </div>
   </body>
 </html>
 
@@ -153,4 +287,162 @@ function popular(video_datas){
     });
 }
   recentVideos();
+  let Register = document.getElementById("sign");
+Register.addEventListener("click", () => {
+  document.getElementById("pop").style.display = 'flex';
+
+});
+
+let closepop = document.getElementById("close");
+closepop.addEventListener("click", () => {
+  document.getElementById("pop").style.display = 'none';
+});
+
+let login = document.getElementById("login");
+   login.addEventListener("click",()=>{
+   document.getElementById("signup").style.display = "none";
+   document.getElementById("signin").style.display = "block";
+ });
+
+ let backtosign = document.getElementById("backtosign");
+ backtosign.addEventListener("click",()=>{
+   document.getElementById("signup").style.display = "block";
+   document.getElementById("signin").style.display = "none";
+ });
+
+
+
+
+
+function Signup(e){
+e.preventDefault()
+
+let form = document.getElementById("signup-form");
+
+let user_data = {
+  name:form.name.value,
+  email:form.email.value,
+  password:form.password.value,
+  username:form.username.value,
+  mobile:form.mobile.value,
+  description:form.description.value,
+};
+
+user_data = JSON.stringify(user_data)
+
+fetch("https://masai-api-mocker.herokuapp.com/auth/register", {
+
+  method:"POST",
+
+  body: user_data,
+
+  headers: {
+      "Content-type": "application/json",
+
+  },
+})
+.then((res) => {
+  return res.json();
+})
+.then((res) =>{
+ let userexist = document.getElementById("userpop");
+  if(res.error === false){
+    userexist.innerText = "Sign Up Successfully";
+    userexist.style.color = "green";
+    form.innerHTML = null;
+    document.getElementById("signin").style.display = "block";
+    document.getElementById("signup").style.display = "none";
+    //  alert("Sign Up Successfully");
+  }
+  else{
+    userexist.innerText = "User Already Exist";
+    userexist.style.color = "red";
+    // alert("User Already Exist")
+  }
+  console.log('res:', res);
+
+})
+.catch((err) =>{
+console.log('err:', err);
+
+});
+
+}
+
+function logins(ev){
+ev.preventDefault()
+
+
+let form = document.getElementById("signin-form");
+
+let user_data = {
+  username:form.user.value,
+  password:form.pass.value,
+  
+};
+
+let data_to_send = JSON.stringify(user_data);
+console.log('data_to_send:', data_to_send)
+
+fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+
+  method:"POST",
+
+  body: data_to_send,
+  
+  headers: {
+      "Content-type": "application/json",
+  },
+})
+.then((res) =>{
+  return res.json();
+})
+.then((res) =>{
+let userexist2 = document.getElementById("userpop2");
+   if(res.error === false){
+      userexist2.innerText = "Sign In Successfully";
+      document.getElementById("pop").style.display = 'none';
+   }
+   else{
+    userexist2.innerText = "Wrong Username Or Password";
+    userexist2.style.color = "red";
+    
+   }
+  console.log('res:', res);
+  fetchmyData(user_data.username, res.token)
+  if(res.error == false){
+  Register.innerHTML = user_data.username;
+  }
+
+})
+.catch((err) =>{
+console.log('err:', err);
+});
+}
+
+function fetchmyData(username, token) {
+fetch(`https://masai-api-mocker.herokuapp.com/user/${username}`, {
+  headers: {
+      "Content-Type" : "application/json",
+      Authorization: `Bearer ${token}`,
+  },
+})
+.then((res) =>{
+  return res.json();
+})
+.then((res) =>{
+  console.log('res:', res);
+  // localStorage.setItem("username",res.)
+})
+.catch((err) =>{
+console.log('err:', err);
+
+});
+
+}
+
+let refresh = document.getElementById("signout");
+refresh.addEventListener("click", ()=>{
+  location.reload();
+});
 </script>
